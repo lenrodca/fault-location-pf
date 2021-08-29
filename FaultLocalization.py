@@ -6,13 +6,18 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import signal
 
-data = pd.read_csv("Prueba_Vol_Cor_V2.csv", delimiter=";")     
+data = pd.read_csv("Prueba_Vol_Cor_V2.1.csv", delimiter=";")     
 
-flag = data.loc[data['All calculations'] == '0,020000'].index[0]
+flag = data.loc[data['All calculations'] == '0,000100'].index[0]
 
 data = data.replace(',','.', regex=True)
 
 ## SEÑALES DE CORRIENTE Y TENSIÓN#
+
+# Vector de tiempos
+time_vector = data.iloc[flag:, [0,1]].astype(float).to_numpy()
+
+# Señales de tensión/corriente
 current_deltaA = data.iloc[flag:, [0,2]].astype(float).to_numpy()
 voltage_deltaA =data.iloc[ flag:,[0,4]].astype(float).to_numpy()
 
@@ -24,22 +29,22 @@ voltage_deltaC =data.iloc[ flag:,[0,6]].astype(float).to_numpy()
 
 
 #FILTER
-#   # Cut-off frequency of the filter
-# w = 0.8
-# # Normalize the frequency
-# b1, a1 = signal.butter(5, w, 'low')
-# outputA = signal.filtfilt(b1, a1, current_deltaA,axis=0)
+  # Cut-off frequency of the filter
+w = 0.8
+# Normalize the frequency
+b1, a1 = signal.butter(5, w, 'low')
+outputA = signal.filtfilt(b1, a1, current_deltaA,axis=0)
 
-# b2, a2 = signal.butter(5, w, 'low')
-# outputB = signal.filtfilt(b2, a2, current_deltaB,axis=0)
+b2, a2 = signal.butter(5, w, 'low')
+outputB = signal.filtfilt(b2, a2, current_deltaB,axis=0)
 
-# b3, a3 = signal.butter(5, w, 'low')
-# outputC = signal.filtfilt(b3, a3, current_deltaC,axis=0)
+b3, a3 = signal.butter(5, w, 'low')
+outputC = signal.filtfilt(b3, a3, current_deltaC,axis=0)
 
-#ADC
-# delta_t = 1e-04
-# k = 1/ (1.56e06/2)
-# theta = 0
+# ADC
+delta_t = 1e-04
+k = 1/ (1.56e06/2)
+theta = 0
 
 # IMPEDANCIA CARACTERISTICA
 Z = 20.631 + 89.93j
@@ -53,8 +58,7 @@ Y = 676.75e-06j
 
 phi = k*delta_t*2*np.pi*60 + theta
 
-T_dq0 = (2/3) * np.array([[0.5, 0.5, 0.5],[np.cos(phi),np.cos(phi-np.pi), np.cos(phi+np.pi) ],
-[-np.sin(phi),-np.sin(phi-np.pi), -np.sin(phi+np.pi)]])
+T_dq0 = (2/3) * np.array([[0.5, 0.5, 0.5], [np.cos(phi),np.cos(phi-np.pi), np.cos(phi+np.pi) ], [-np.sin(phi),-np.sin(phi-np.pi), -np.sin(phi+np.pi)]])
 
 outputA_fft = np.fft.fft(outputA[:,1])
 outputB_fft = np.fft.fft(outputB[:,1])
@@ -90,12 +94,16 @@ outputC_sym = np.abs(outputC_fft)*np.cos(w*t+np.angle(outputC_fft))
 # plt.plot(outputA[:,0],outputA[:,1])
 
 plt.plot(t, current_deltaB[:,1])
-plt.plot(t,outputB[:,1])
-plt.xlabel('Time(s)')
-plt.ylabel('Current(kA)')
+# plt.plot(t,outputB[:,1])
+plt.xlabel('Time (s)')
+plt.ylabel('Current (kA)')
 plt.show()
 
-# Comentario de Prueba #3
+# AGG 
+print(time_vector)
+print(np.size(time_vector))
 
+# Aabc_k = np.array(current_deltaA[:,1], current_deltaB[:,1], current_deltaC[:,1])
+# Adq0_k = T_dq0*Aabc_k
 
 
