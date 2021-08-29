@@ -99,7 +99,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Current (kA)')
 plt.show()
 
-# AGG 
+# AGG 2
 print(time_vector)
 print(np.size(time_vector))
 
