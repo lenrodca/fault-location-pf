@@ -25,20 +25,21 @@ voltage_deltaC =data.iloc[ flag:,[0,6]].astype(float).to_numpy()
 
 #FILTER
 #   # Cut-off frequency of the filter
-w = 0.8 # Normalize the frequency
-b1, a1 = signal.butter(5, w, 'low')
-outputA = signal.filtfilt(b1, a1, current_deltaA,axis=0)
+# w = 0.8
+# # Normalize the frequency
+# b1, a1 = signal.butter(5, w, 'low')
+# outputA = signal.filtfilt(b1, a1, current_deltaA,axis=0)
 
-b2, a2 = signal.butter(5, w, 'low')
-outputB = signal.filtfilt(b2, a2, current_deltaB,axis=0)
+# b2, a2 = signal.butter(5, w, 'low')
+# outputB = signal.filtfilt(b2, a2, current_deltaB,axis=0)
 
-b3, a3 = signal.butter(5, w, 'low')
-outputC = signal.filtfilt(b3, a3, current_deltaC,axis=0)
+# b3, a3 = signal.butter(5, w, 'low')
+# outputC = signal.filtfilt(b3, a3, current_deltaC,axis=0)
 
 #ADC
-delta_t = 1e-04
-k = 1/ (1.56e06/2)
-theta = 0
+# delta_t = 1e-04
+# k = 1/ (1.56e06/2)
+# theta = 0
 
 # IMPEDANCIA CARACTERISTICA
 Z = 20.631 + 89.93j
