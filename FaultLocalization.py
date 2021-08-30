@@ -2,6 +2,7 @@
 #TRATAMIENTO DE INFORMACION#
 
 import numpy as np
+from numpy.core.fromnumeric import transpose
 import pandas as pd 
 import matplotlib.pyplot as plt
 from scipy import signal
@@ -101,9 +102,56 @@ plt.show()
 
 # AGG 2
 print(time_vector)
-print(np.size(time_vector))
+# contador = np.size(current_deltaA)
+contador = 580
+Ad_k_vector = np.zeros((contador))
+Aq_k_vector = np.zeros((contador))
+A0_k_vector = np.zeros((contador))
+print('Loop')
+for i in range(contador):
+  print('Iteración')
+  # Vector ABC
+  print('Impresion de Aabc_k')
+  Aabc_k = np.array([[[current_deltaA[i,1]], [current_deltaB[i,1]], [current_deltaC[i,1]]]])
+  print(Aabc_k)
 
-# Aabc_k = np.array(current_deltaA[:,1], current_deltaB[:,1], current_deltaC[:,1])
-# Adq0_k = T_dq0*Aabc_k
+  # Construcción Matriz Tdq0
+  print('Impresion de phi')
+  phi = i*delta_t*2*np.pi*60 + theta
+  print(phi)
+  print('Impresion de Matriz')
+  T_dq0 = (2/3) * np.array([[0.5, 0.5, 0.5], [np.cos(phi),np.cos(phi-np.pi), np.cos(phi+np.pi) ], [-np.sin(phi),-np.sin(phi-np.pi), -np.sin(phi+np.pi)]])
+  print(T_dq0)
+
+  # Cálculo de la trasnformada
+  print('Impresion de Park')
+  Adq0_k = np.dot(T_dq0, Aabc_k)
+  print(Adq0_k)
+
+  # Almacenamiento de valores en vectores
+  print('Impresion de Almacenamiento vector')
+  Ad_k = Adq0_k[0]
+  Aq_k = Adq0_k[1]
+  A0_k = Adq0_k[2]
+  print(Ad_k)
+
+  Ad_k_vector[i] = Ad_k
+  Aq_k_vector[i] = Aq_k
+  A0_k_vector[i] = A0_k
+  print(Ad_k_vector)
+  if i == (contador - 1):
+        print("The end")
+        break
+  print('Número de iteración')    
+  print(i)
+  print('Impresion contador')
+  print(contador)
+
+print('Impresion componente directa')
+print(Ad_k_vector)
+print('Impresion componente cuadratura')
+print(Aq_k_vector)
+print('Impresion componente eje 0')
+print(A0_k_vector)
 
 
