@@ -183,12 +183,12 @@ S_template = S_f[199:500]
 
 # print(corr_fns)
 
-corr = np.correlate(S_template,S_b)
+corr = (1/(contador/2))*np.convolve(S_template,S_b,mode='same')
 corr = corr*np.abs(corr)
 print(np.argmax(np.abs(corr),axis=0))
 tau_f = np.argmax(np.abs(corr),axis=0)
 
-d = ((3*10**8*tau_f*delta_t)/(2))*10e-03
+d = (((3*10**8)*tau_f*delta_t)/(2))*10e-03
 print(d)
 
 

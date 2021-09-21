@@ -1,5 +1,4 @@
-All calculations;Line 5;Line 5;Line 5;Line 5;Line 5;Line 5
-"Time in s";"Phase Current A/Terminal j in kA";"Phase Current B/Terminal j in kA";"Phase Current C/Terminal j in kA";"Phase Voltage B/Terminal j in p.u.";"Phase Voltage C/Terminal j in p.u.";"Phase Voltage A/Terminal j in p.u."
+t;"Phase Current A/Terminal j in kA";"Phase Current B/Terminal j in kA";"Phase Current C/Terminal j in kA";"Phase Voltage B/Terminal j in p.u.";"Phase Voltage C/Terminal j in p.u.";"Phase Voltage A/Terminal j in p.u."
 -0,099900;0,152858;-0,205821;0,052963;0,890292;-0,027005;-0,863286
 -0,099800;0,158379;-0,203500;0,045121;0,871457;0,011168;-0,882625
 -0,099700;0,163675;-0,200890;0,037215;0,851385;0,049325;-0,900710
