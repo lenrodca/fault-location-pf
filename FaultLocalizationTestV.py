@@ -7,7 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import signal
 
-data = pd.read_csv("Prueba_Vol_Cor_V3.2.csv", delimiter=";")  
+data = pd.read_csv("t3.csv", delimiter=",")  
 
 print(data)
 
@@ -21,18 +21,18 @@ time_vector = data.iloc[:,0].astype(float).to_numpy()
 
 # Señales de tensión/corriente
 current_deltaA = data.iloc[:, 1].astype(float).to_numpy()
-voltage_deltaA =data.iloc[ :,6].astype(float).to_numpy()
+voltage_deltaA =data.iloc[ :,4].astype(float).to_numpy()
 
 current_deltaB = data.iloc[:, 2].astype(float).to_numpy()
-voltage_deltaB =data.iloc[ :,4].astype(float).to_numpy()
+voltage_deltaB =data.iloc[ :,5].astype(float).to_numpy()
 
 current_deltaC = data.iloc[:, 3].astype(float).to_numpy()
-voltage_deltaC =data.iloc[ :,5].astype(float).to_numpy()
+voltage_deltaC =data.iloc[ :,6].astype(float).to_numpy()
 
 
 
 # ADC
-delta_t = 1e-06
+delta_t = 0.641e-06
 k = 1/ (1.56e06/2)
 theta = 0
 
@@ -83,6 +83,9 @@ plt.show()
 # print(time_vector)
 # contador = np.size(current_deltaA)
 contador = len(time_vector)
+contador_arr = np.linspace(1,contador,contador)
+print('Hola')
+print(contador_arr)
 Ad_k_vector = np.zeros((contador))
 Aq_k_vector = np.zeros((contador))
 A0_k_vector = np.zeros((contador))
@@ -187,31 +190,36 @@ plt.xlabel('Time (s)')
 plt.ylabel('Current (kA)')
 plt.show()
 
-
-index_S = np.argwhere(time_vector == 0.02).astype(int)
+index_S = np.argwhere(time_vector == 0.05).astype(int)
 index_S = index_S[0,0]
 print(index_S)
 
 S_template = S_f[index_S:round(index_S+contador/2)]
 
+# def corr_fn(tau):
+#   phi = 0
+#   delta_t = 1e-04
+#   k = 1
+#   M = round(contador/2)
+#   while k<M:
+#     phi = phi+S_backward[k+tau]*S_template[k]
+#     k = k+1
+#     print(k)
+#   return(phi)
 
-#     corr_fn = (1/(contador/2))*S_b[i*delta_t+tau_arr]*S_template[i*delta_t]
-#     corr_fns = corr_fns + corr_fn
 
-# print(corr_fns)
-
-corr = np.convolve(S_template,S_b,mode="valid")
+corr = np.correlate(S_template,S_b,mode="same")
 corr = corr*np.abs(corr)
-print(np.argmax(np.abs(corr)))
-tau_f = np.argmax(np.abs(corr))
+print(np.argmax(np.abs(corr),axis=0))
+tau_f = np.argmax(np.abs(corr),axis=0)
 
-d = ((3e08*tau_f*delta_t)/(2))*1e-03
+d = ((298.863e03*tau_f*delta_t)/(2))*1e-03
 print(d)
 
-# plt.plot(t,outputB[:,1])
-plt.xlabel('Time (s)')
-plt.ylabel('Current (kA)')
-plt.show()
+
+
+
+
 
 
 
