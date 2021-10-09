@@ -1,6 +1,5 @@
 
 #TRATAMIENTO DE INFORMACION#
-
 import numpy as np
 from numpy.core.fromnumeric import transpose
 import pandas as pd 
@@ -216,6 +215,9 @@ tau_f = np.argmax(np.abs(corr),axis=0)
 d = ((298.863e03*tau_f*delta_t)/(2))*1e-03
 print(d)
 
+ventana = tkinter.Tk()
+ventana.geometry("400x300")
+ventana.mainloop()
 
 
 

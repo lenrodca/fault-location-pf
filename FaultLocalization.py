@@ -1,6 +1,6 @@
 
 #TRATAMIENTO DE INFORMACION#
-
+import tkinter
 import numpy as np
 from numpy.core.fromnumeric import transpose
 import pandas as pd 
@@ -190,7 +190,6 @@ tau_f = np.argmax(np.abs(corr),axis=0)
 
 d = (((3*10**8)*tau_f*delta_t)/(2))*10e-03
 print(d)
-
 
 
 
